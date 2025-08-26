@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Service\Uploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +31,7 @@ class UserController extends AbstractController
 
     #[Route('/user', name: 'current_user')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function currentUserProfile(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
+    public function currentUserProfile(Uploader $uploader, Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -43,6 +44,10 @@ class UserController extends AbstractController
             if ($newPassword) {
                 $hash = $passwordHasher->hashPassword($user, $newPassword);
                 $user->setPassword($hash);
+            }
+            $picture = $userForm->get('pictureFile')->getData();
+            if ($picture) {
+                $user->setPicture($uploader->uploadProfileImage($picture, $user->getPicture()));
             }
             $em->flush();
             $this->addFlash('success', 'Modifications sauvegardées !');
