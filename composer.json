@@ -44,6 +44,7 @@
         "symfony/ux-turbo": "^2.19",
         "symfony/validator": "7.1.*",
         "symfony/web-link": "7.1.*",
+        "symfony/webpack-encore-bundle": "^2.3",
         "symfony/yaml": "7.1.*",
         "twig/cssinliner-extra": "^3.12",
         "twig/extra-bundle": "^2.12|^3.0",

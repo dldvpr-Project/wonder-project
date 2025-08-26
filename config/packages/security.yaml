@@ -24,8 +24,8 @@ security:
                 secret: '%kernel.secret%'
             logout:
                 path: logout
-            logging_throttling:
-                max_attempt: 3
+            login_throttling:
+                max_attempts: 3
                 interval: '5 minutes'
 
             # activate different ways to authenticate
