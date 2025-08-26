@@ -107,6 +107,18 @@ class QuestionController extends AbstractController
         return $referer ? $this->redirect($referer) : $this->redirectToRoute('home');
     }
 
+    #[Route('/question/search/{search}', name: 'question_search', priority: 1)]
+    public function questionSearch(string $search = "none", QuestionRepository $questionRepository): Response
+    {
+        if ($search === "none") {
+            $questions = [];
+        } else {
+            $questions = $questionRepository->findBySearch($search);
+        }
+
+        return $this->json(json_encode($questions));
+    }
+
     #[Route('/comment/rating/{id}/{score}', name: 'comment_rating')]
     #[IsGranted('ROLE_USER')]
     public function ratingComment(Request $request, Comment $comment, int $score, EntityManagerInterface $em, VoteRepository $voteRepo): RedirectResponse

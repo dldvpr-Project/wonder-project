@@ -1,5 +1,11 @@
+@use '../mixin' as *;
+
 .sidebar {
   min-width: 200px;
+  margin-right: 50px;
+  @include xs {
+    margin-right: 0;
+  }
 }
 
 .sidebar-nav a {
@@ -17,4 +23,8 @@
 
 .sidebar-nav a i {
   color: var(--color-dark);
+}
+
+input[type='file'] {
+  width: 100%;
 }
